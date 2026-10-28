@@ -1,3 +1,4 @@
+import java.time.Year;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -8,11 +9,12 @@ public class BTT3 {
     private int namXuatBan;
     private double giaSach;
     private int soLuong;
+    private int loaiSach;
     private double thanhTien;
     private double phiVanChuyen;
     private double tongTien;
 
-    // Bai 1: Nhap thong tin
+    // Nhap thong tin (tuan 3) + chon loai sach (bai 4)
     public void nhapThongTin() {
         Scanner scanner = new Scanner(System.in);
         scanner.useLocale(Locale.US);
@@ -28,28 +30,92 @@ public class BTT3 {
         giaSach = scanner.nextDouble();
         System.out.print("Nhap so luong: ");
         soLuong = scanner.nextInt();
+        System.out.println("Chon loai sach:");
+        System.out.println("1. Sach giao khoa");
+        System.out.println("2. Sach tham khao");
+        System.out.println("3. Sach chuyen nganh");
+        System.out.println("4. Sach khac");
+        System.out.print("Nhap lua chon (1-4): ");
+        loaiSach = scanner.nextInt();
     }
 
-    // Bai 2: Thanh tien = don gia x so luong
-    public double tinhTien() {
+    // Bai 1: Kiem tra du lieu hop le
+    public boolean kiemTraHopLe() {
+        boolean hopLe = true;
+        int namHienTai = Year.now().getValue();
+
+        if (giaSach <= 0) {
+            System.out.println("Loi: Gia phai lon hon 0.");
+            hopLe = false;
+        }
+        if (soLuong < 0) {
+            System.out.println("Loi: So luong phai lon hon hoac bang 0.");
+            hopLe = false;
+        }
+        if (namXuatBan < 1900 || namXuatBan > namHienTai) {
+            System.out.println("Loi: Nam xuat ban phai tu 1900 den " + namHienTai + ".");
+            hopLe = false;
+        }
+        return hopLe;
+    }
+
+    // Bai 2: Phan loai gia
+    public String phanLoaiGia() {
+        if (giaSach < 50000) {
+            return "Sach gia thap";
+        } else if (giaSach <= 100000) {
+            return "Sach gia trung binh";
+        } else if (giaSach <= 200000) {
+            return "Sach gia cao";
+        } else {
+            return "Sach gia dac biet";
+        }
+    }
+
+    // Bai 3: Phan loai ton kho
+    public String phanLoaiTonKho() {
+        if (soLuong == 0) {
+            return "Het sach";
+        } else if (soLuong <= 5) {
+            return "Sap het";
+        } else if (soLuong <= 20) {
+            return "Con it";
+        } else {
+            return "Con nhieu";
+        }
+    }
+
+    // Bai 4: Dung switch chon loai sach
+    public String tenLoaiSach() {
+        String ketQua;
+        switch (loaiSach) {
+            case 1:
+                ketQua = "Sach giao khoa";
+                break;
+            case 2:
+                ketQua = "Sach tham khao";
+                break;
+            case 3:
+                ketQua = "Sach chuyen nganh";
+                break;
+            case 4:
+                ketQua = "Sach khac";
+                break;
+            default:
+                ketQua = "Lua chon khong hop le";
+        }
+        return ketQua;
+    }
+
+    // Tinh tien (tuan 3)
+    public void tinhTien() {
         thanhTien = giaSach * soLuong;
-        return thanhTien;
-    }
-
-    // Bai 3: Phi van chuyen = 5% gia tri sach
-    public double tinhPhiVanChuyen() {
         phiVanChuyen = thanhTien * 0.05;
-        return phiVanChuyen;
-    }
-
-    // Bai 4: Tong tien nhap = thanh tien + phi van chuyen
-    public double tinhTongTien() {
         tongTien = thanhTien + phiVanChuyen;
-        return tongTien;
     }
 
     public void xuatThongTin() {
-        System.out.println("---Thong tin sach---");
+        System.out.println("\n---Thong tin sach---");
         System.out.println("Ma sach: " + maSach);
         System.out.println("Ten sach: " + tenSach);
         System.out.println("Tac gia: " + tacGia);
@@ -59,14 +125,19 @@ public class BTT3 {
         System.out.println("Thanh tien: " + thanhTien);
         System.out.println("Phi van chuyen: " + phiVanChuyen);
         System.out.println("Tong tien nhap: " + tongTien);
+        System.out.println("Phan loai gia: " + phanLoaiGia());
+        System.out.println("Ton kho: " + phanLoaiTonKho());
+        System.out.println("Loai sach: " + tenLoaiSach());
     }
 
     public static void main(String[] args) {
-        QuanliSach sach = new QuanliSach();
+        BTT3 sach = new BTT3();
         sach.nhapThongTin();
-        sach.tinhTien();
-        sach.tinhPhiVanChuyen();
-        sach.tinhTongTien();
-        sach.xuatThongTin();
+        if (sach.kiemTraHopLe()) {
+            sach.tinhTien();
+            sach.xuatThongTin();
+        } else {
+            System.out.println("Du lieu khong hop le, vui long nhap lai.");
+        }
     }
 }
