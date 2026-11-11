@@ -7,35 +7,35 @@ public class test {
 
     static int timViTri(String ma) {
         for (int i = 0; i < danhSach.size(); i++) {
-        if (danhSach.get(i).getMaSach().equalsIgnoreCase(ma)) {
-            return i;
+            if (danhSach.get(i).getMaSach().equalsIgnoreCase(ma)) {
+                return i;
             }
         }
         return -1;
     }
 
     static void themSach() {
-        System.out.print("Ma sach: ");
+        System.out.print("Mã sách: ");
         String ma = sc.nextLine();
         if (timViTri(ma) != -1) {
-            System.out.println("ma sach da ton tai!");
+            System.out.println("Ma sach da ton tai!");
             return;
         }
         System.out.print("Tieu de: ");
         String tieuDe = sc.nextLine();
-        System.out.print("TTac gia: ");
+        System.out.print("Tac gia: ");
         String tacGia = sc.nextLine();
         System.out.print("Nam xuat ban: ");
         int nam = Integer.parseInt(sc.nextLine());
         System.out.print("So luong: ");
         int sl = Integer.parseInt(sc.nextLine());
         danhSach.add(new Sach(ma, tieuDe, tacGia, nam, sl));
-        System.out.println("Đa them sach.");
+        System.out.println("Da them sach.");
     }
 
     static void hienThiSach() {
         if (danhSach.isEmpty()) {
-            System.out.println("Danh sach trong.");
+            System.out.println("Danh sach rong.");
             return;
         }
         for (Sach s : danhSach) {
@@ -44,7 +44,7 @@ public class test {
     }
 
     static void timSach() {
-        System.out.print("nhap ma sach can tim: ");
+        System.out.print("Nhap ma sach can tim: ");
         int vt = timViTri(sc.nextLine());
         if (vt == -1) {
             System.out.println("Khong tim thay sach.");
@@ -54,7 +54,7 @@ public class test {
     }
 
     static void xoaSach() {
-        System.out.print("nhap ma sach can xoa: ");
+        System.out.print("Nhap ma sach can xoa: ");
         int vt = timViTri(sc.nextLine());
         if (vt == -1) {
             System.out.println("Khong tim thay sach.");
@@ -65,7 +65,11 @@ public class test {
     }
 
     public static void main(String[] args) {
-        Sach s1 = new Sach("S001", "Lap trinh Java", "Nguyen van A", 2022, 10);
+        Sach s1 = new Sach("S001", "Lap trinh java", "Nguyen van a", 2022, 10);
+        s1.hienThiThongTin();
+
+        s1.setSoLuong(-5);
+        s1.setNamXuatBan(3000);
         s1.hienThiThongTin();
 
         danhSach.add(s1);
@@ -74,7 +78,7 @@ public class test {
 
         int chon;
         do {
-            System.out.println("\n===== QUAN LI SACH =====");
+            System.out.println("\n===== QUAN LY SACH =====");
             System.out.println("1. Them sach");
             System.out.println("2. Hien thi sach");
             System.out.println("3. Tim sach");
@@ -88,7 +92,7 @@ public class test {
                 case 2: hienThiSach(); break;
                 case 3: timSach(); break;
                 case 4: xoaSach(); break;
-                case 0: System.out.println("tam biet"); break;
+                case 0: System.out.println("Tam biet!"); break;
                 default: System.out.println("Lua chon khong hop le!");
             }
         } while (chon != 0);
